@@ -2,7 +2,7 @@ import tkinter as tk
 import backend as be
 
 root = tk.Tk()
-
+active_entry = None
 
 # Actions =============
 def close():
@@ -12,18 +12,47 @@ def close():
     root.destroy()
 
 
-def error_connection():
+def show_notification(notify):
     """
     Shows notification if can't connect to exchange rates server
+                        or
+                        if input data are wrong
     """
-    print('URL error')
+    if notify == 'ErrorURL':
+        var_notify.set("Can't connect to 'openexchangerates.org'")
+    else:
+        var_notify.set('Wrong values!')
 
 
-def wrong_data():
+def lighten_entries():
+    for entry in entries_dol:
+        entry.config(bg='#fff')
+    for entry in entries_rub:
+        entry.config(bg='#fff')
+
+
+def darken_entries(event):
     """
-    Shows notification if input data are wrong
+    Darken and cleaning unfocused cells
     """
-    print('Wrong data')
+    #first make all default
+    lighten_entries()
+
+    for i in range(len(entries_dol)):
+        entry = entries_dol[i]
+        var = vars_dol[i]
+        if entry != entry.focus_get():
+            entry.config(bg='#d4d4d4')
+            var.set('')
+        entry = entries_rub[i]
+        var = vars_rub[i]
+        if entry != entry.focus_get():
+            entry.config(bg='#d4d4d4')
+            var.set('')
+
+
+def enable_entries():
+    pass
 
 
 def convert():
@@ -31,26 +60,24 @@ def convert():
     Sending the data to and retrieving back from backend
     """
 
+    # deleting notifications
+    var_notify.set('')
+
     # absorb values
     values_dol = list(map(lambda x: x.get(), vars_dol))
     values_rub = list(map(lambda x: x.get(), vars_rub))
     # send values
     values_to_set = be.convert_salary(values_dol, values_rub)
 
-    # check incoming data
-    if values_to_set == 'ErrorURL':
-        error_connection()
-        return
-    elif values_to_set == 'ErrorIncome':
-        wrong_data()
+    # if error returned
+    if isinstance(values_to_set, str):
+        show_notification(values_to_set)
         return
 
     # fill the entries
     for i in range(len(values_to_set[0])):
         vars_dol[i].set(values_to_set[0][i])
         vars_rub[i].set(values_to_set[1][i])
-
-
 # =====================
 
 
@@ -67,6 +94,10 @@ lbl_dol.grid(row=1, column=0)
 
 lbl_rub = tk.Label(root, text='₽', font=('Times', 20))
 lbl_rub.grid(row=2, column=0)
+
+var_notify = tk.StringVar()
+lbl_notify = tk.Label(root, textvariable=var_notify)
+lbl_notify.grid(row=4, column=0, columnspan=2)
 # =====================
 
 # Entries =============
@@ -87,6 +118,12 @@ entries_rub = []
 for i in range(5):
     entries_rub.append(tk.Entry(root, width=10, textvariable=vars_rub[i], font=('Times', 20)))
     entries_rub[i].grid(row=2, column=i+1)
+
+# binding entries
+for entry in entries_dol:
+    entry.bind('<Key>', darken_entries)
+for entry in entries_rub:
+    entry.bind('<Key>', darken_entries)
 # =====================
 
 # Buttons =============
