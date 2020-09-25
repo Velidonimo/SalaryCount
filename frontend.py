@@ -1,5 +1,5 @@
 import tkinter as tk
-
+import backend as be
 
 root = tk.Tk()
 
@@ -8,6 +8,7 @@ root = tk.Tk()
 def close():
     root.destroy()
 # =====================
+
 
 # Labels ==============
 lbl_per = tk.Label(root, text='Per', font=('Times', 20))
@@ -36,20 +37,21 @@ lbl_rub.grid(row=2, column=0)
 # =====================
 
 # Entries =============
-vars_dol = ['OOps, wrong index']
+oops = 'Oops, wrong index'
+vars_dol = [oops]
 for i in range(1, 6):
     vars_dol.append(tk.StringVar())
 
-entries_dol = ['OOps, wrong index']
+entries_dol = [oops]
 for i in range(1, 6):
     entries_dol.append(tk.Entry(root, width=10, textvariable=vars_dol[i], font=('Times', 20)))
     entries_dol[i].grid(row=1, column=i)
 
-vars_rub = ['OOps, wrong index']
+vars_rub = [oops]
 for i in range(1, 6):
     vars_rub.append(tk.StringVar())
 
-entries_rub = ['OOps, wrong index']
+entries_rub = [oops]
 for i in range(1, 6):
     entries_rub.append(tk.Entry(root, width=10, textvariable=vars_rub[i], font=('Times', 20)))
     entries_rub[i].grid(row=2, column=i)
@@ -62,14 +64,5 @@ btn_convert.grid(row=3, column=2, columnspan=3)
 btn_close = tk.Button(root, text='Close', font=('Times', 15), bg='#ababab', command=close)
 btn_close.grid(row=4, column=5)
 # =====================
-
-
-
-
-
-
-
-
-
 
 root.mainloop()
