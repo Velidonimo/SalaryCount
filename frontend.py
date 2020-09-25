@@ -11,23 +11,12 @@ def close():
 
 
 # Labels ==============
-lbl_per = tk.Label(root, text='Per', font=('Times', 20))
-lbl_per.grid(row=0, column=0)
-
-lbl_hour = tk.Label(root, text='hour:', font=('Times', 20))
-lbl_hour.grid(row=0, column=1)
-
-lbl_day = tk.Label(root, text='day:', font=('Times', 20))
-lbl_day.grid(row=0, column=2)
-
-lbl_week = tk.Label(root, text='week:', font=('Times', 20))
-lbl_week.grid(row=0, column=3)
-
-lbl_mo = tk.Label(root, text='month:', font=('Times', 20))
-lbl_mo.grid(row=0, column=4)
-
-lbl_year = tk.Label(root, text='year:', font=('Times', 20))
-lbl_year.grid(row=0, column=5)
+titles = 'Per', 'hour:', 'day:', 'week:', 'month:', 'year:'
+column = 0
+for i in range(6):
+    lbl = tk.Label(root, text=titles[column], font=('Times', 20))
+    lbl.grid(row=0, column=column)
+    column += 1
 
 lbl_dol = tk.Label(root, text='$', font=('Times', 20))
 lbl_dol.grid(row=1, column=0)
