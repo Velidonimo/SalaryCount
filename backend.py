@@ -108,7 +108,7 @@ def convert_salary(entries_dol, entries_rub):
     entries_rub = list(map(lambda x: float(x) if x else 0.0, entries_rub))
 
     # getting converted values
-    column = 1
+    column = 0
     result = []
     for entry in entries_dol:
         if entry:
@@ -124,4 +124,4 @@ def convert_salary(entries_dol, entries_rub):
 
 
 if __name__ == '__main__':
-    print(convert_salary(['0','0','','',''],['0','-1','','','']))
+    print(convert_salary(['1','0','','',''],['0','0','','','']))
