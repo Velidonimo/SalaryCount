@@ -122,8 +122,10 @@ for i in range(5):
 # binding entries
 for entry in entries_dol:
     entry.bind('<Key>', darken_entries)
+    entry.bind('<Return>', lambda event: convert())
 for entry in entries_rub:
     entry.bind('<Key>', darken_entries)
+    entry.bind('<Return>', lambda event: convert())
 # =====================
 
 # Buttons =============
