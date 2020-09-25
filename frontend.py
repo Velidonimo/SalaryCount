@@ -26,24 +26,23 @@ lbl_rub.grid(row=2, column=0)
 # =====================
 
 # Entries =============
-oops = 'Oops, wrong index'
-vars_dol = [oops]
-for i in range(1, 6):
+vars_dol = []
+for i in range(5):
     vars_dol.append(tk.StringVar())
 
-entries_dol = [oops]
-for i in range(1, 6):
+entries_dol = []
+for i in range(5):
     entries_dol.append(tk.Entry(root, width=10, textvariable=vars_dol[i], font=('Times', 20)))
-    entries_dol[i].grid(row=1, column=i)
+    entries_dol[i].grid(row=1, column=i+1)
 
-vars_rub = [oops]
-for i in range(1, 6):
+vars_rub = []
+for i in range(5):
     vars_rub.append(tk.StringVar())
 
-entries_rub = [oops]
-for i in range(1, 6):
+entries_rub = []
+for i in range(5):
     entries_rub.append(tk.Entry(root, width=10, textvariable=vars_rub[i], font=('Times', 20)))
-    entries_rub[i].grid(row=2, column=i)
+    entries_rub[i].grid(row=2, column=i+1)
 # =====================
 
 # Buttons =============

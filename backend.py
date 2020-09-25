@@ -61,6 +61,9 @@ def check_input(entries1, entries2):
     :return: True if params are OK, else False
     """
 
+    if len(entries1)!=5 or len(entries2)!=5:
+        return False
+
     values_count = 0
     for entry in entries1:
         if entry:
@@ -75,17 +78,14 @@ def check_input(entries1, entries2):
     if values_count != 1:
         return False
 
-    if entries1[0] or entries1[0]:
-        return False
-
     return True
 
 
 def convert_salary(entries_dol, entries_rub):
     """
     Converts salary
-    :param entries_dol: list of float. Len = 6
-    :param entries_rub: list of float. Len = 6
+    :param entries_dol: list of float. Len = 5
+    :param entries_rub: list of float. Len = 5
     :return: (entries_dol, entries_rub)
              or 'ErrorURL' if fail to get ration
              or 'ErrorIncome' if got wrong params
@@ -102,7 +102,7 @@ def convert_salary(entries_dol, entries_rub):
         return 'ErrorIncome'
 
     # getting converted values
-    column = 0
+    column = 1
     result = []
     for entry in entries_dol:
         if entry:
@@ -118,4 +118,4 @@ def convert_salary(entries_dol, entries_rub):
 
 
 if __name__ == '__main__':
-    print(convert_salary([0,0,0,0,0],[0,364532,0,0,0]))
+    print(convert_salary([0,0,0,0,0],[0,0,0,0,1]))
