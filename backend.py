@@ -30,15 +30,15 @@ def fill_entries(currency, column, value):
     """
     # calculating the salary per hour
     per_hour = 0
-    if column == 1:  # hour
+    if column == 0:  # hour
         per_hour = value
-    elif column == 2:  # day
+    elif column == 1:  # day
         per_hour = value/8
-    elif column == 3:  # week
+    elif column == 2:  # week
         per_hour = value/40
-    elif column == 4:  # month
+    elif column == 3:  # month
         per_hour = value/22/8
-    elif column == 5:  # year
+    elif column == 4:  # year
         per_hour = value/52/40
 
     # calculating all types of salary
@@ -60,21 +60,23 @@ def check_input(entries1, entries2):
     :param entries2: list of floats (rub entries)
     :return: True if params are OK, else False
     """
-
+    # check the length
     if len(entries1)!=5 or len(entries2)!=5:
         return False
-
+    # check the float
+    try:
+        entries1 = list(map(lambda x: float(x) if x else None, entries1))
+        entries2 = list(map(lambda x: float(x) if x else None, entries2))
+    except ValueError:
+        return False
+    # check for a single positive value
     values_count = 0
-    for entry in entries1:
-        if entry:
-            values_count += 1
-            if entry < 0:
-                return False
-    for entry in entries2:
-        if entry:
-            values_count += 1
-            if entry < 0:
-                return False
+    for row in [entries1, entries2]:
+        for entry in row:
+            if entry:
+                values_count += 1
+                if entry < 0:
+                    return False
     if values_count != 1:
         return False
 
@@ -101,6 +103,10 @@ def convert_salary(entries_dol, entries_rub):
     if not check_input(entries_dol, entries_rub):
         return 'ErrorIncome'
 
+    #convert to float
+    entries_dol = list(map(lambda x: float(x) if x else 0.0, entries_dol))
+    entries_rub = list(map(lambda x: float(x) if x else 0.0, entries_rub))
+
     # getting converted values
     column = 1
     result = []
@@ -118,4 +124,4 @@ def convert_salary(entries_dol, entries_rub):
 
 
 if __name__ == '__main__':
-    print(convert_salary([0,0,0,0,0],[0,0,0,0,1]))
+    print(convert_salary(['0','0','','',''],['0','-1','','','']))
