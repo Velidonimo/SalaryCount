@@ -3,6 +3,7 @@ import urllib.request
 
 rate = 0
 
+
 def getting_rate():
     '''
     Gets a ruble exchange course from openexchangerates.org
