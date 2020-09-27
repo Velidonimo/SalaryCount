@@ -71,9 +71,15 @@ def convert():
     # deleting notifications
     var_notify.set('')
 
+    # deleting commas if necessary
+    value = active_var.get()
+    if ',' in value:
+        lst = value.split(',')
+        value = ''.join(lst)
+
     # absorb values
-    values_dol = list(map(lambda var: var.get() if var==active_var else '', vars_dol))
-    values_rub = list(map(lambda var: var.get() if var==active_var else '', vars_rub))
+    values_dol = list(map(lambda var: value if var == active_var else '', vars_dol))
+    values_rub = list(map(lambda var: value if var == active_var else '', vars_rub))
 
     # send values
     values_to_set = be.convert_salary(values_dol, values_rub)
