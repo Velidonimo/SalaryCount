@@ -3,6 +3,7 @@ import backend as be
 
 root = tk.Tk()
 active_entry = None
+active_var = None
 
 # Actions =============
 def close():
@@ -24,35 +25,42 @@ def show_notification(notify):
         var_notify.set('Wrong values!')
 
 
-def lighten_entries():
-    for entry in entries_dol:
-        entry.config(bg='#fff')
-    for entry in entries_rub:
-        entry.config(bg='#fff')
-
-
 def darken_entries(event):
     """
-    Darken and cleaning unfocused cells
+    Darken unfocused entries
     """
-    #first make all default
-    lighten_entries()
+    global active_entry
+    active_entry = entries_dol[0].focus_get()
 
+    def darken(entry):
+        return '#d4d4d4' if entry != active_entry else '#fff'
+
+    for entry in entries_dol:
+        entry.config(bg=darken(entry))
+    for entry in entries_rub:
+        entry.config(bg=darken(entry))
+
+
+def clean_entries(event):
+    """
+    Cleaning unfocused cells
+    """
+    global active_entry, active_var
     for i in range(len(entries_dol)):
+        # run through dollars
         entry = entries_dol[i]
         var = vars_dol[i]
-        if entry != entry.focus_get():
-            entry.config(bg='#d4d4d4')
+        if entry != active_entry:
             var.set('')
+        else:
+            active_var = var
+        # run through rubles
         entry = entries_rub[i]
         var = vars_rub[i]
-        if entry != entry.focus_get():
-            entry.config(bg='#d4d4d4')
+        if entry != active_entry:
             var.set('')
-
-
-def enable_entries():
-    pass
+        else:
+            active_var = var
 
 
 def convert():
@@ -64,8 +72,9 @@ def convert():
     var_notify.set('')
 
     # absorb values
-    values_dol = list(map(lambda x: x.get(), vars_dol))
-    values_rub = list(map(lambda x: x.get(), vars_rub))
+    values_dol = list(map(lambda var: var.get() if var==active_var else '', vars_dol))
+    values_rub = list(map(lambda var: var.get() if var==active_var else '', vars_rub))
+
     # send values
     values_to_set = be.convert_salary(values_dol, values_rub)
 
@@ -119,13 +128,16 @@ for i in range(5):
     entries_rub.append(tk.Entry(root, width=10, textvariable=vars_rub[i], font=('Times', 20)))
     entries_rub[i].grid(row=2, column=i+1)
 
+
 # binding entries
 for entry in entries_dol:
-    entry.bind('<Key>', darken_entries)
+    entry.bind('<Key>', clean_entries)
     entry.bind('<Return>', lambda event: convert())
+    entry.bind('<FocusIn>', darken_entries)
 for entry in entries_rub:
-    entry.bind('<Key>', darken_entries)
+    entry.bind('<Key>', clean_entries)
     entry.bind('<Return>', lambda event: convert())
+    entry.bind('<FocusIn>', darken_entries)
 # =====================
 
 # Buttons =============
