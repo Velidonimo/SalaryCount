@@ -83,10 +83,10 @@ def convert():
         show_notification(values_to_set)
         return
 
-    # fill the entries
+    # fill the entries with commas
     for i in range(len(values_to_set[0])):
-        vars_dol[i].set(values_to_set[0][i])
-        vars_rub[i].set(values_to_set[1][i])
+        vars_dol[i].set(f'{values_to_set[0][i]:,}')
+        vars_rub[i].set(f'{values_to_set[1][i]:,}')
 # =====================
 
 
